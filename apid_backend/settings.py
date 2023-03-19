@@ -42,11 +42,12 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'doctor',
-    'patient',
     'user',
     'condition',
     'exercise',
 ]
+
+AUTH_USER_MODEL = 'user.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

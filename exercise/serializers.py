@@ -4,11 +4,6 @@ from .models import Exercise
 class ExerciseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exercise
-        fields = [
-            "id",
-            "name",
-            "image",
-            "video_link"
-        ]
+        fields = '__all__'
 
     

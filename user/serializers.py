@@ -1,15 +1,12 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
+from .models import User
 from rest_framework.authtoken.models import Token
-from doctor.serializers import DoctorSerializer 
-
+from doctor.serializers import DoctorSerializer
+from condition.serializers import ConditionSerializer
 
 class UserSerializer(serializers.ModelSerializer):
+    doctor = DoctorSerializer()
+    condition = ConditionSerializer()
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'password']
-
-    def create(self, validated_data):
-        user = User.objects.create_user(**validated_data)
-        Token.objects.create(user=user)
-        return user
+        fields = ['id', 'doctor', 'condition', 'duration', 'username', 'phonenumber', 'code']
