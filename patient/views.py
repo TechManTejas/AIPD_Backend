@@ -3,7 +3,7 @@ from .models import Patient
 from .serializers import PatientSerializer
 
 
-class ProductModelViewset(viewsets.ModelViewSet):
+class PatientModelViewset(viewsets.ModelViewSet):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
     http_method_names = ('get')

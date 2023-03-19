@@ -3,7 +3,7 @@ from .models import Condition
 from .serializers import ConditionSerializer
 
 
-class ProductModelViewset(viewsets.ModelViewSet):
+class ConditionModelViewset(viewsets.ModelViewSet):
     queryset = Condition.objects.all()
     serializer_class = ConditionSerializer
     http_method_names = ('get')
