@@ -6,5 +6,5 @@ from .models import Condition
 class ConditionAdmin(admin.ModelAdmin):
     list_display = [
         "id",
-        "name"
+        "name",
     ]

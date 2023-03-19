@@ -10,3 +10,5 @@ class ExerciseSerializer(serializers.ModelSerializer):
             "image",
             "video_link"
         ]
+
+    
