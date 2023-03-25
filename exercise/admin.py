@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import format_html
 from .models import Exercise
 
 
@@ -7,6 +8,12 @@ class ExerciseAdmin(admin.ModelAdmin):
     list_display = [
         "id",
         "name",
+        "description",
         "image",
-        "video_link"
     ]
+
+    def image(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" width="100" height="100" />'.format(obj.image.url))
+        else:
+            return "No image"

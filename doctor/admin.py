@@ -6,5 +6,5 @@ from .models import Doctor
 class DoctorAdmin(admin.ModelAdmin):
     list_display = [
         "id",
-        "name"
+        "user"
     ]

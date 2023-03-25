@@ -6,14 +6,19 @@ from rest_framework.routers import DefaultRouter
 
 from user import views as user_views
 from doctor import views as doctor_views
+from patient import views as patient_views
 from condition import views as condition_views
-from exercise import views as exercise_views
+from exercise import views as exercise_views 
+from exerciserecord import views as exercise_records_views 
 
 router = DefaultRouter()
 router.register('user', user_views.UserModelViewSet, basename='user')
-router.register('doctor', doctor_views.DoctorModelViewset, basename='doctor')
-router.register('condition', condition_views.ConditionModelViewset, basename='condition')
-router.register('exercise', exercise_views.ExerciseModelViewset, basename='exercise')
+router.register('doctor', doctor_views.DoctorViewSet, basename='doctor')
+router.register('patient', patient_views.PatientViewSet, basename='patient')
+router.register('condition', condition_views.ConditionViewSet, basename='condition')
+router.register('exercise', exercise_views.ExerciseViewSet,basename='exercise')
+router.register('exercise_record', exercise_records_views.ExerciseRecordViewSet,basename='exercise_record')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
