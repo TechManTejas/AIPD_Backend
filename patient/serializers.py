@@ -1,11 +1,9 @@
-
-from django.contrib.auth.models import User
 from rest_framework import serializers
-from patient.models import Patient
-from condition.models import Condition
-from doctor.serializers import DoctorSerializer
-from user.serializers import UserSerializer
 from condition.serializers import ConditionSerializer
+from patient.models import Patient
+from django.contrib.auth.models import User
+from doctor.models import Doctor
+
 
 class PatientCreateSerializer(serializers.ModelSerializer):
     user_data = serializers.JSONField(required=True)
@@ -15,11 +13,23 @@ class PatientCreateSerializer(serializers.ModelSerializer):
         fields = ['user_data', 'doctor_id', 'condition_id']
 
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username']
+
+
+class DoctorSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    class Meta:
+        model = User
+        fields = ['id', 'user']
+
+
 class PatientSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     doctor = DoctorSerializer()
     condition = ConditionSerializer()
-
     class Meta:
         model = Patient
-        fields = ['user', 'doctor', 'condition']
+        fields = '__all__'
