@@ -14,6 +14,13 @@ class DoctorPatientSerializer(serializers.ModelSerializer):
         fields = ['id', 'user', 'condition']
 
 
+class DoctorUserSerializer(serializers.ModelSerializer):
+    patients = DoctorPatientSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Doctor
+        fields = ['patients']
+
 class DoctorSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     patients = DoctorPatientSerializer(many=True, read_only=True)
