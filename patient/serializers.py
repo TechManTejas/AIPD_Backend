@@ -7,10 +7,9 @@ from doctor.models import Doctor
 
 class PatientCreateSerializer(serializers.ModelSerializer):
     user_data = serializers.JSONField(required=True)
-
     class Meta:
         model = Patient
-        fields = ['user_data', 'doctor_id', 'condition_id']
+        fields = ['user_data', 'condition_id']
 
 
 class UserSerializer(serializers.ModelSerializer):
