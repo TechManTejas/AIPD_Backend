@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import viewsets, status
 from rest_framework.response import Response
-
+from rest_framework.authtoken.models import Token
 from doctor.models import Doctor
 from .models import Patient
 from .serializers import PatientSerializer, PatientCreateSerializer
@@ -30,10 +30,15 @@ class PatientViewSet(viewsets.ModelViewSet):
             user.save()
 
             # Create a new patient object
-            patient = Patient(user=user, doctor_id=doctor_id, condition_id=condition_id)
+            patient = Patient(user=user, doctor_id=doctor_id,condition_id=condition_id)
             patient.save()
+
+            # Create a new token object
+            token, created = Token.objects.get_or_create(user=user)
 
             serializer = self.get_serializer(patient)
             headers = self.get_success_headers(serializer.data)
 
             return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        else:
+            return Response({'message': 'Only doctors can create patients'}, status=status.HTTP_403_FORBIDDEN)
