@@ -10,13 +10,13 @@ class PatientCreateSerializer(serializers.ModelSerializer):
     condition_id = serializers.IntegerField(required=True)
     class Meta:
         model = Patient
-        fields = ['user_data', 'condition_id']
+        fields = ['user_data', 'condition_id', 'duration']
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username']
+        fields = ['id', 'username','first_name','last_name']
 
 
 class DoctorSerializer(serializers.ModelSerializer):

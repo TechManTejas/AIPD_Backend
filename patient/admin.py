@@ -9,4 +9,5 @@ class PatientAdmin(admin.ModelAdmin):
         "user",
         "doctor",
         "condition",
+        "duration"
     ]

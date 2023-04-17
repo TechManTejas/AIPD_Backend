@@ -37,6 +37,7 @@ class PatientViewSet(viewsets.ModelViewSet):
             serializer.is_valid(raise_exception=True)
             user_data = serializer.validated_data.pop('user_data')
             condition_id = serializer.validated_data.pop('condition_id')
+            duration = serializer.validated_data.pop('duration')
             doctor_id = self.request.user.doctor.id
 
             # Create a new user object
@@ -45,7 +46,12 @@ class PatientViewSet(viewsets.ModelViewSet):
             user = User.objects.create_user(**user_data)
 
             # Create a new patient object
-            patient = Patient.objects.create(user=user, doctor_id=doctor_id,condition_id=condition_id)
+            patient = Patient.objects.create(
+                user=user, 
+                doctor_id=doctor_id, 
+                condition_id=condition_id, 
+                duration=duration
+            )
 
             # Create a new token object
             token, created = Token.objects.get_or_create(user=user)
