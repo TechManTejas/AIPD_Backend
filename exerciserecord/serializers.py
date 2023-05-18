@@ -6,3 +6,4 @@ class ExerciseRecordSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExerciseRecord
         fields = '__all__'
+
