@@ -8,6 +8,7 @@ class ExerciseAdmin(admin.ModelAdmin):
     list_display = [
         "id",
         "name",
+        "sets",
         "description",
         "image",
     ]
