@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'exercise',
     'exerciserecord',
     'patient',
+    'patient_exercise',
     'user'
 ]
 
