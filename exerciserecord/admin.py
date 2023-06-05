@@ -9,5 +9,5 @@ class ExerciseRecordAdmin(admin.ModelAdmin):
         "patient",
         "exercise",
         "date",
-        'videoURL'
+        'video'
     ]
