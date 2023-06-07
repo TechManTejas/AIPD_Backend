@@ -1,4 +1,6 @@
 from django.contrib import admin
+
+from apid_backend.utilities import export_to_excel
 from .models import Doctor
 from patient.models import Patient
 
@@ -14,3 +16,4 @@ class DoctorAdmin(admin.ModelAdmin):
         "id",
         "user"
     ]
+    actions = [export_to_excel]

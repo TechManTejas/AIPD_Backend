@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
+
+from apid_backend.utilities import export_to_excel
 from .models import Exercise
 
 
@@ -12,6 +14,7 @@ class ExerciseAdmin(admin.ModelAdmin):
         "description",
         "image",
     ]
+    actions = [export_to_excel]
 
     def image(self, obj):
         if obj.image:

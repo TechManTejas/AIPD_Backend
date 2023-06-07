@@ -1,4 +1,6 @@
 from django.contrib import admin
+
+from apid_backend.utilities import export_to_excel
 from .models import Patient
 
 
@@ -11,3 +13,4 @@ class PatientAdmin(admin.ModelAdmin):
         "condition",
         "duration"
     ]
+    actions = [export_to_excel]

@@ -1,4 +1,5 @@
 from django.contrib import admin
+from apid_backend.utilities import export_to_excel
 from patient.models import Patient
 from doctor.models import Doctor
 from django.contrib.auth.admin import UserAdmin
@@ -20,6 +21,8 @@ class DoctorInline(admin.TabularInline):
 
 
 class CustomUserAdmin(UserAdmin):
+    actions = [export_to_excel]
+
     def get_inline_instances(self, request, obj=None):
         if obj is not None and hasattr(obj, 'patient'):
             return [PatientInline(self.model, self.admin_site)]
