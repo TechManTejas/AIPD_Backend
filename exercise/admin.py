@@ -13,6 +13,7 @@ class ExerciseAdmin(admin.ModelAdmin):
         "sets",
         "description",
         "image",
+        "time"
     ]
     actions = [export_to_excel]
 
