@@ -8,6 +8,7 @@ class Exercise(models.Model):
     image = models.ImageField(upload_to='exercise_images/')
     link = models.URLField(blank=True)
     data = models.JSONField(default=dict, blank=True, null=True)
+    time = models.PositiveIntegerField(default=45)
 
     def __str__(self):
         return self.name
