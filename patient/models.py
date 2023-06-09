@@ -8,6 +8,8 @@ class Patient(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, related_name='patients')
     condition = models.ForeignKey(Condition, on_delete=models.CASCADE, related_name='patients')
     duration = models.IntegerField(default=0)
+    first_name = models.CharField(max_length=255, default='')
+    last_name = models.CharField(max_length=255, default='')
 
     def __str__(self):
         return self.user.username

@@ -8,6 +8,8 @@ from .models import Patient
 class PatientAdmin(admin.ModelAdmin):
     list_display = [
         "id",
+        "first_name",
+        "last_name",
         "user",
         "doctor",
         "condition",
