@@ -56,9 +56,12 @@ class PatientViewSet(viewsets.ModelViewSet):
             # Create a new token object
             token, created = Token.objects.get_or_create(user=user)
 
+            # Get the ID of the created patient
+            patient_id = patient.id
+
             serializer = self.get_serializer(patient)
             headers = self.get_success_headers(serializer.data)
 
-            return Response({'code': password}, status=status.HTTP_201_CREATED, headers=headers)
+            return Response({'code': password, 'patient_id': patient_id}, status=status.HTTP_201_CREATED, headers=headers)
         else:
             return Response({'message': 'Only doctors can create patients'}, status=status.HTTP_403_FORBIDDEN)
