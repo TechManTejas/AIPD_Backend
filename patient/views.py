@@ -41,8 +41,8 @@ class PatientViewSet(viewsets.ModelViewSet):
             doctor_id = self.request.user.doctor.id
 
             # Create a new user object
-            password = generate_random_sequence()
-            user_data['password'] = password
+            # password = generate_random_sequence()
+            user_data['password'] = user_data['username']
             user = User.objects.create_user(**user_data)
 
             # Create a new patient object
@@ -62,6 +62,6 @@ class PatientViewSet(viewsets.ModelViewSet):
             serializer = self.get_serializer(patient)
             headers = self.get_success_headers(serializer.data)
 
-            return Response({'code': password, 'patient_id': patient_id}, status=status.HTTP_201_CREATED, headers=headers)
+            return Response({'code': user_data['username'], 'patient_id': patient_id}, status=status.HTTP_201_CREATED, headers=headers)
         else:
             return Response({'message': 'Only doctors can create patients'}, status=status.HTTP_403_FORBIDDEN)
