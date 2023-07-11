@@ -13,4 +13,8 @@ class PatientExerciseAdmin(admin.ModelAdmin):
         "sets",
         "reps"
     ]
+    list_filter = [
+        "patient",
+        "exercise"
+    ]
     actions = [export_to_excel]
