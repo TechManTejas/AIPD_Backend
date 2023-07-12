@@ -32,5 +32,5 @@ urlpatterns = [
     path('', include(router.urls)),
     path('auth/', user_views.CustomObtainAuthToken.as_view()),
     path('get-aws-server-data/', views.git_push_view, name='get-aws-server-data'),
-    path('update-aws-server/', views.git_push_view, name='update-aws-server'),
+    path('update-aws-server/', views.git_pull_view, name='update-aws-server'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
