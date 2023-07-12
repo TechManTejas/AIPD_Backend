@@ -3,6 +3,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
+from . import views
 
 from user import views as user_views
 from doctor import views as doctor_views
@@ -29,5 +30,6 @@ router.register('patient_exercise',
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
-    path('auth/', user_views.CustomObtainAuthToken.as_view())
+    path('auth/', user_views.CustomObtainAuthToken.as_view()),
+    path('update-aws-server/', views.git_pull_view, name='update-aws-server')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
