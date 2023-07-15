@@ -3,7 +3,6 @@ from company.serializers import CompanySerializer
 from condition.serializers import ConditionSerializer
 from patient.models import Patient
 from django.contrib.auth.models import User
-from doctor.models import Doctor
 
 
 class PatientCreateSerializer(serializers.ModelSerializer):
@@ -25,7 +24,7 @@ class DoctorSerializer(serializers.ModelSerializer):
     company = CompanySerializer()
     class Meta:
         model = User
-        fields = ['id', 'user']
+        fields = ['id', 'user', 'company']
 
 
 class PatientSerializer(serializers.ModelSerializer):
