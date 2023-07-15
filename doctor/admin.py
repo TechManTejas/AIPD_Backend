@@ -14,6 +14,7 @@ class DoctorAdmin(admin.ModelAdmin):
     inlines = [PatientInline]
     list_display = [
         "id",
-        "user"
+        "user",
+        "company"
     ]
     actions = [export_to_excel]
