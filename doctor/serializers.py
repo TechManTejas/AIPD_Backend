@@ -1,5 +1,6 @@
 
 from rest_framework import serializers
+from company.serializers import CompanySerializer
 
 from patient.serializers import PatientSerializer
 from .models import Doctor
@@ -16,6 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
 class DoctorSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     patients = PatientSerializer(many=True)
+    company = CompanySerializer()
     class Meta:
         model = Doctor
         fields = '__all__'

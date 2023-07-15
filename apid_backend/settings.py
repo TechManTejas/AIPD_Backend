@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'exerciserecord',
     'patient',
     'patient_exercise',
-    'user'
+    'user',
+    'company'
 ]
 
 MIDDLEWARE = [
