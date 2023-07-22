@@ -8,7 +8,9 @@ class ExerciseRecordViewSet(viewsets.ModelViewSet):
     serializer_class = ExerciseRecordSerializer
     
     def get_queryset(self):
+        print(self.request.data)
+        print(self.request.user)
         if hasattr(self.request.user, 'patient'):
             return ExerciseRecord.objects.filter(patient__user=self.request.user)
         elif hasattr(self.request.user, 'fittlyf_physio'):
-            return ExerciseRecord.objects.filter(patient__user__id=self.request.data.patient_id)
+            return ExerciseRecord.objects.filter(patient__id=self.request.data['patient_id'])
