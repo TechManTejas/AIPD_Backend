@@ -8,6 +8,7 @@ class ExerciseRecord(models.Model):
     date = models.DateField()
     video = models.CharField(max_length=255, default='', null=True)
     review = models.BooleanField(null=True, blank=True)
+    commment = models.TextField(blank=True)
 
     def __str__(self):
         return f'{self.patient} - {self.exercise} - {self.date}'

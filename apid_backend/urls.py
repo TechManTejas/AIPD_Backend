@@ -7,6 +7,7 @@ from . import views
 
 from user import views as user_views
 from doctor import views as doctor_views
+from fittlyf_physio import views as fittlyf_physio_views
 from patient import views as patient_views
 from condition import views as condition_views
 from exercise import views as exercise_views
@@ -16,6 +17,7 @@ from patient_exercise import views as patient_exercise_views
 router = DefaultRouter()
 router.register('user', user_views.UserModelViewSet, basename='user')
 router.register('doctor', doctor_views.DoctorViewSet, basename='doctor')
+router.register('fittlyf_physio', fittlyf_physio_views.FittlyfPhysioViewSet, basename='fittlyf_physio')
 router.register('patient', patient_views.PatientViewSet, basename='patient')
 router.register('condition', condition_views.ConditionViewSet,
                 basename='condition')

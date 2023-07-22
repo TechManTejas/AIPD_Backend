@@ -3,7 +3,7 @@ from company.serializers import CompanySerializer
 from condition.serializers import ConditionSerializer
 from patient.models import Patient
 from django.contrib.auth.models import User
-
+from dateutil.relativedelta import relativedelta
 
 class PatientCreateSerializer(serializers.ModelSerializer):
     user_data = serializers.JSONField(required=True)
@@ -42,5 +42,4 @@ class PatientSerializer(serializers.ModelSerializer):
         return obj.user.date_joined.strftime('%d/%m/%Y')
 
     def get_end_date(self, obj):
-        from dateutil.relativedelta import relativedelta
         return (obj.user.date_joined + relativedelta(months=obj.duration)).strftime('%d/%m/%Y')
