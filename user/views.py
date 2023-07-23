@@ -20,7 +20,6 @@ class CustomObtainAuthToken(ObtainAuthToken):
         token = Token.objects.get(key=response.data['token'])
         
         user = token.user
-
         user_type = None
         if hasattr(user, 'patient'):
             user_type = 'patient'
@@ -28,5 +27,7 @@ class CustomObtainAuthToken(ObtainAuthToken):
             user_type = 'doctor'
         elif hasattr(user, 'fittlyf_physio'):
             user_type = 'fittlyf_physio'
+            
+        response.data['user_type'] = user_type
         
-        return Response({'token': token.key, 'user_type': user_type})
+        return response
