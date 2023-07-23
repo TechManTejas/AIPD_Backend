@@ -5,7 +5,7 @@ from patient.models import Patient
 
 
 @admin.register(FittlyfPhysio)
-class DoctorAdmin(admin.ModelAdmin):
+class FittlyfPhysioAdmin(admin.ModelAdmin):
     list_display = [
         "id",
         "user"
