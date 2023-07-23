@@ -18,4 +18,15 @@ class CustomObtainAuthToken(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
         response = super(CustomObtainAuthToken, self).post(request, *args, **kwargs)
         token = Token.objects.get(key=response.data['token'])
-        return Response({'token': token.key})
+        
+        user = token.user
+
+        user_type = None
+        if hasattr(user, 'patient'):
+            user_type = 'patient'
+        elif hasattr(user, 'doctor'):
+            user_type = 'doctor'
+        elif hasattr(user, 'fittlyf_physio'):
+            user_type = 'fittlyf_physio'
+        
+        return Response({'token': token.key, 'user_type': user_type})
