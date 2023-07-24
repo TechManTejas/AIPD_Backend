@@ -31,6 +31,9 @@ class PatientViewSet(viewsets.ModelViewSet):
         elif hasattr(self.request.user, 'doctor'):
             return Patient.objects.filter(doctor__user__id=self.request.user.id)
         elif hasattr(self.request.user, 'fittlyf_physio'):
+            patient_id = self.request.query_params.get('patient_id')
+            if patient_id:
+                return Patient.objects.filter(id=patient_id)
             return Patient.objects.filter(fittlyf_physio__user__id=self.request.user.id)
 
 
