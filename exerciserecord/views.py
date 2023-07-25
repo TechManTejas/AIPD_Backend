@@ -19,3 +19,7 @@ class ExerciseRecordViewSet(viewsets.ModelViewSet):
                 return ExerciseRecord.objects.filter(patient__id=patient_id)
             if exercise_record_id:
                 return ExerciseRecord.objects.filter(id=exercise_record_id)
+            
+class RedundantExerciseRecordViewSet(viewsets.ModelViewSet):
+    queryset = ExerciseRecord.objects.all()
+    serializer_class = ExerciseRecordSerializer

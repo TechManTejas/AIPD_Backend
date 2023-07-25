@@ -25,6 +25,8 @@ router.register('exercise', exercise_views.ExerciseViewSet,
                 basename='exercise')
 router.register('exercise_record',
                 exercise_records_views.ExerciseRecordViewSet, basename='exercise_record')
+router.register('exercise_record_redundant',
+                exercise_records_views.RedundantExerciseRecordViewSet, basename='exercise_record_redundant')
 router.register('patient_exercise',
                 patient_exercise_views.PatientExerciseViewSet, basename='patient_exercise')
 
