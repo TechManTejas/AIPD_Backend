@@ -1,8 +1,12 @@
 from django.contrib.auth.models import User
+from django.db.models import F, ExpressionWrapper, IntegerField, Subquery
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
+from django.db.models.functions import ExtractDay, Now, TruncDate
 from doctor.models import Doctor
+from django.utils import timezone
+from datetime import date, timedelta
 from .models import Patient
 from .serializers import PatientSerializer, PatientCreateSerializer
 import random
@@ -71,3 +75,18 @@ class PatientViewSet(viewsets.ModelViewSet):
             return Response({'code': user_data['username'], 'patient_id': patient_id}, status=status.HTTP_201_CREATED, headers=headers)
         else:
             return Response({'message': 'Only doctors can create patients'}, status=status.HTTP_403_FORBIDDEN)
+
+class ActivePatientViewSet(viewsets.ModelViewSet):
+    serializer_class = PatientSerializer
+
+    def get_queryset(self):
+        # Calculate the date for comparison using database functions
+        compare_date = timezone.now() - F('duration') * 86400 * 30 # 86400 seconds in a day
+
+        # Get today's date
+        today = timezone.now().date()
+
+        # Filter the queryset to get active patients based on the condition
+        active_patients = Patient.objects.filter(user__date_joined__date__gt=compare_date)
+
+        return active_patients
