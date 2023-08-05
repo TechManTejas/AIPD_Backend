@@ -1,5 +1,9 @@
 from django.contrib.auth.models import User
-from django.db.models import F, ExpressionWrapper, IntegerField, Subquery
+from django.db.models import (
+    F,
+    ExpressionWrapper,
+    IntegerField
+)
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
@@ -12,55 +16,59 @@ from .serializers import PatientSerializer, PatientCreateSerializer
 import random
 import string
 
+
 def generate_random_sequence():
     chars = string.ascii_lowercase + string.ascii_uppercase + string.digits
 
-    sequence = ''.join(
-        [random.choice(string.ascii_lowercase),random.choice(string.ascii_uppercase),random.choice(string.digits)] 
-        +
-        [random.choice(chars) for _ in range(3)]
+    sequence = "".join(
+        [
+            random.choice(string.ascii_lowercase),
+            random.choice(string.ascii_uppercase),
+            random.choice(string.digits),
+        ]
+        + [random.choice(chars) for _ in range(3)]
     )
 
-    sequence = ''.join(random.sample(sequence, len(sequence)))
+    sequence = "".join(random.sample(sequence, len(sequence)))
 
     return sequence
+
 
 class PatientViewSet(viewsets.ModelViewSet):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
 
     def get_queryset(self):
-        if hasattr(self.request.user, 'patient'):
+        if hasattr(self.request.user, "patient"):
             return Patient.objects.filter(user=self.request.user.id)
-        elif hasattr(self.request.user, 'doctor'):
+        elif hasattr(self.request.user, "doctor"):
             return Patient.objects.filter(doctor__user__id=self.request.user.id)
-        elif hasattr(self.request.user, 'fittlyf_physio'):
-            patient_id = self.request.query_params.get('patient_id')
+        elif hasattr(self.request.user, "fittlyf_physio"):
+            patient_id = self.request.query_params.get("patient_id")
             if patient_id:
                 return Patient.objects.filter(id=patient_id)
             return Patient.objects.filter(fittlyf_physio__user__id=self.request.user.id)
 
-
     def create(self, request, *args, **kwargs):
-        if hasattr(self.request.user, 'doctor'):
+        if hasattr(self.request.user, "doctor"):
             serializer = PatientCreateSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
-            user_data = serializer.validated_data.pop('user_data')
-            condition_id = serializer.validated_data.pop('condition_id')
-            duration = serializer.validated_data.pop('duration')
+            user_data = serializer.validated_data.pop("user_data")
+            condition_id = serializer.validated_data.pop("condition_id")
+            duration = serializer.validated_data.pop("duration")
             doctor_id = self.request.user.doctor.id
 
             # Create a new user object
             # password = generate_random_sequence()
-            user_data['password'] = user_data['username']
+            user_data["password"] = user_data["username"]
             user = User.objects.create_user(**user_data)
 
             # Create a new patient object
             patient = Patient.objects.create(
-                user=user, 
-                doctor_id=doctor_id, 
-                condition_id=condition_id, 
-                duration=duration
+                user=user,
+                doctor_id=doctor_id,
+                condition_id=condition_id,
+                duration=duration,
             )
 
             # Create a new token object
@@ -72,21 +80,36 @@ class PatientViewSet(viewsets.ModelViewSet):
             serializer = self.get_serializer(patient)
             headers = self.get_success_headers(serializer.data)
 
-            return Response({'code': user_data['username'], 'patient_id': patient_id}, status=status.HTTP_201_CREATED, headers=headers)
+            return Response(
+                {"code": user_data["username"], "patient_id": patient_id},
+                status=status.HTTP_201_CREATED,
+                headers=headers,
+            )
         else:
-            return Response({'message': 'Only doctors can create patients'}, status=status.HTTP_403_FORBIDDEN)
+            return Response(
+                {"message": "Only doctors can create patients"},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
 
 class ActivePatientViewSet(viewsets.ModelViewSet):
     serializer_class = PatientSerializer
 
     def get_queryset(self):
-        # Calculate the date for comparison using database functions
-        compare_date = timezone.now() - F('duration') * 86400 * 30 # 86400 seconds in a day
+        today = date.today()
 
-        # Get today's date
-        today = timezone.now().date()
+        queryset = Patient.objects.annotate(
+            duration_days=ExpressionWrapper(
+                F("duration") * 30, output_field=IntegerField()
+            )
+        )
 
-        # Filter the queryset to get active patients based on the condition
-        active_patients = Patient.objects.filter(user__date_joined__date__gt=compare_date)
+        custom_queryset = []
 
-        return active_patients
+        for patient in queryset:
+            if patient.user.date_joined.date() > today - timedelta(
+                days=patient.duration_days
+            ):
+                custom_queryset.append(patient)
+
+        return custom_queryset
