@@ -1,7 +1,4 @@
 */migrations
 */_pycache_
-/.env
-.env
-env/
 
 db.sqlite3
