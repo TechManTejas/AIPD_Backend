@@ -35,6 +35,7 @@ class PatientSerializer(serializers.ModelSerializer):
     start_date = serializers.SerializerMethodField()
     end_date = serializers.SerializerMethodField()
     status = serializers.SerializerMethodField()
+    days_since_last_completion = serializers.SerializerMethodField()
 
     class Meta:
         model = Patient
@@ -51,3 +52,11 @@ class PatientSerializer(serializers.ModelSerializer):
         end_date = end_date.date()
         today = date.today()
         return today <= end_date
+    
+    def get_days_since_last_completion(self, obj):
+        completed_exercise_date = obj.completed_exercise_date
+        if completed_exercise_date:
+            today = date.today()
+            difference = (today - completed_exercise_date).days
+            return difference
+        return -1
