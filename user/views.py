@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from patient.serializers import PatientSerializer
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
@@ -23,6 +24,11 @@ class CustomObtainAuthToken(ObtainAuthToken):
         user_type = None
         if hasattr(user, 'patient'):
             user_type = 'patient'
+
+            serializer = PatientSerializer(user.patient)
+            if serializer.data.get('status') == False:
+                response.data = {}
+                
         elif hasattr(user, 'doctor'):
             user_type = 'doctor'
         elif hasattr(user, 'fittlyf_physio'):

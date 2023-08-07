@@ -1,3 +1,4 @@
+from typing import Iterable, Optional
 from django.db import models
 from django.contrib.auth.models import User
 from doctor.models import Doctor
@@ -24,6 +25,7 @@ class Patient(models.Model):
     last_name = models.CharField(max_length=255, default="", null=True, blank=True)
 
     completed_exercise_date = models.DateField(null=True, blank=True)
+    prompt_review = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return self.user.username

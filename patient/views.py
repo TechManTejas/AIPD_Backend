@@ -7,9 +7,6 @@ from django.db.models import (
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
-from django.db.models.functions import ExtractDay, Now, TruncDate
-from doctor.models import Doctor
-from django.utils import timezone
 from datetime import date, timedelta
 from .models import Patient
 from .serializers import PatientSerializer, PatientCreateSerializer
@@ -63,12 +60,16 @@ class PatientViewSet(viewsets.ModelViewSet):
             user_data["password"] = user_data["username"]
             user = User.objects.create_user(**user_data)
 
+            # Calculate the default prompt_review value (2 days after user's date joined)
+            prompt_review_default = user.date_joined + timedelta(days=2)
+
             # Create a new patient object
             patient = Patient.objects.create(
                 user=user,
                 doctor_id=doctor_id,
                 condition_id=condition_id,
                 duration=duration,
+                prompt_review=prompt_review_default,
             )
 
             # Create a new token object
